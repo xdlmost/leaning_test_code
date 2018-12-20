@@ -59,6 +59,7 @@ $(BIN)check_stack:$(SRC)echo_size_of_stack.o
 	gcc -g -o $@ $^ 
 
 -include $(OBJ:.o=.d)
+
 .PHONY:all clean
 
 clean:
