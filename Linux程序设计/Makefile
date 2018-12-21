@@ -1,7 +1,8 @@
 SRC=./src/
 BIN=./bin/
 
-all:$(BIN)env\
+all:$(BIN)\
+		$(BIN)env\
         $(BIN)curses_hw\
         $(BIN)trySecret\
         $(BIN)tryef\
@@ -13,6 +14,10 @@ all:$(BIN)env\
         $(BIN)pipe1\
         $(BIN)netinfo\
         $(BIN)gtktest
+$(BIN):checkbin
+
+checkbin:
+	-@mkdir -vp $(BIN)
 
 %.o: %.cc
 	gcc -o $@  -c $^ -MMD -g
