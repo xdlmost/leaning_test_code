@@ -5,13 +5,22 @@ CFLAGS=-g -MMD -O0
 
 LIBOBJS=src/atom.o
 
-all:bin bin/libcinterface.so
+TESTOBJS=src/test_atom.o
+
+all:bin bin/libcinterface.so bin/test_atom
+
+bin/test_atom:src/test_atom.o
+	$(CC) -g -L./bin -lcinterface -o $@  $^
 
 bin/libcinterface.so: $(LIBOBJS)
 	$(CC) -g -fPIC -shared -o $@ $^
 
-%.o:%.c
-	$(CC) $(CFLAGS) -fPIC  -o $@ -c $^ 
+$(LIBOBJS):%.o:%.c
+	$(CC) $(CFLAGS) -fPIC -o $@ -c $< 
+
+$(TESTOBJS):%.o:%.c
+	$(CC) $(CFLAGS) -o $@ -c $< 
+
 
 bin: checkbin
 

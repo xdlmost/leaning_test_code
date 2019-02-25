@@ -1,9 +1,9 @@
-#ifdef __MEM_INCLUDE
-#define __MEN_INCLUDE
-
+#ifndef __MEM_INCLUDE
+#define __MEM_INCLUDE
+ 
 #include <stdlib.h>
 
-#define ALLCO(x) (mallco((x)))
-#define FREE(x) (free((x)))
+#define ALLOC(x) (malloc(x))
+#define FREE(x) (free(x))
 
 #endif

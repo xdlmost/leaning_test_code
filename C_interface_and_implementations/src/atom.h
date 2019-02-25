@@ -1,4 +1,4 @@
-#ifdef __ATOM_INCLUDE
+#ifndef __ATOM_INCLUDE
 #define __ATOM_INCLUDE
 
 extern int Atom_length(const char *str);
