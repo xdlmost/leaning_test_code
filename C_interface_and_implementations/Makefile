@@ -1,23 +1,24 @@
 
 CC?=gcc
 
-CFLAGS=-g
+CFLAGS=-g -MMD -O0
 
-all:main main1
+LIBOBJS=src/atom.o
 
-bin/liblib.so: bin src/lib.c
-	gcc -g -fPIC -shared -o bin/liblib.so -c src/lib.c
+all:bin bin/libcinterface.so
 
-main:bin src/main.c bin/liblib.so
-	gcc -g src/main.c -L ./bin -llib -o bin/main
+bin/libcinterface.so: $(LIBOBJS)
+	$(CC) -g -fPIC -shared -o $@ $^
 
-main1:bin src/main1.c bin/liblib.so
-	gcc -g src/main1.c -L ./bin -llib -o bin/main1
+%.o:%.c
+	$(CC) $(CFLAGS) -fPIC  -o $@ -c $^ 
 
 bin: checkbin
 
 checkbin:
 	-@mkdir -pv ./bin
+
+-include $(LIBOBJS:.o=.d)
 
 .PHONY: all clean checkbin
 
