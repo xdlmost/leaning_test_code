@@ -3,14 +3,23 @@ CC?=gcc
 
 CFLAGS=-g -MMD -O0
 
-LIBOBJS=src/atom.o
+CFLAGS_TEST=-g -L./bin -lcinterface
 
-TESTOBJS=src/test_atom.o
+LIBOBJS=src/atom.o \
+        src/except.o \
+        src/assert.o
 
-all:bin bin/libcinterface.so bin/test_atom
+TESTOBJS=src/test_atom.o \
+         src/test_assert.o
+
+all:bin bin/libcinterface.so bin/test_atom bin/test_assert
 
 bin/test_atom:src/test_atom.o
-	$(CC) -g -L./bin -lcinterface -o $@  $^
+	$(CC) $(CFLAGS_TEST) -o $@  $^
+
+bin/test_assert:src/test_assert.o
+	$(CC) $(CFLAGS_TEST) -o $@  $^
+
 
 bin/libcinterface.so: $(LIBOBJS)
 	$(CC) -g -fPIC -shared -o $@ $^

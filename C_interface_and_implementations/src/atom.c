@@ -1,5 +1,5 @@
 #include "atom.h"
-#include <assert.h>
+#include "assert.h"
 #include <string.h>
 #include <limits.h>
 #include "mem.h"
