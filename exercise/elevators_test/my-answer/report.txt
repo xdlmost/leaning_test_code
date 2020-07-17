@@ -1,0 +1,36 @@
+hello.
+There are two worker threads, one for humans and the other for elevators.And threads work in loops forever.
+a worker thread recives a list of works,and finish them in each loop. 
+On the other hand ,the worker threads are work senders (event source). We must make events occur 
+in a specific sequence like [humans started] --> [elevators stareed] --> [elevators ready] --> [elevators work] --> 
+[humans work]  --back to--> [elevators work] --> [humans work] --> .......... to implement the testing program ,I must solve problems below.
+
+problem one (thread synchronization):
+
+[elevators work] meams [recive calls] --> [elevators step] --> [send arrive] --> [recive next elevators step] --> ......
+[humans work] meams [humans step] --> [send calls] --> [recive arrive] --> [recive next humans step] --> ......
+[elevators work] and [humans work] must keep [recive next step] is the last event .and [recive calls] and [recive arrive] event
+are bound to come from each other thread ,and [recive next step] come from themself.we all know that the order of information form 
+different threads can not be asserted if there is no thread synchronization mechanism. two schemes can solve this problem .
+you can use thread locks to synchronize the two threads ,Or you can also change message sender to make sure that a thread has only one event source.
+I take the easy way. let humans send [next elevators step] and elevators send [next humans step] ,so elevators recive enents only form humans 
+and humans recive enents only form elevators. now I can manage the order of events recived as i wish.
+
+problem two (algorithm of calls distribution):
+
+  **************************************
+
+bonus problem one (thread work after a specific delay ):
+
+delay should be executed befor the main loop in a thread. and std::mutex is a better and safer way to implement delay.and then parmeterlize 
+the delay function.
+
+bonus problem two (thread clean exit ):
+
+there is only one way to clean exit from a thread. that is thread main function is completed .but "while(true)" mean newer complete .so I 
+"while(true)" to "while(exitFlag)",and add a message to unset the "exitFlag" when all works were done.
+
+bonus problem three (numbers of elevators ,humans, building sizes centralized controller ):
+
+It is a reasonable request.and There are many solutions form macros to configuration file . three parameters need to be configured and they are all simple formatted.so I chose
+configuration class as my solution.
